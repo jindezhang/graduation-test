@@ -18,15 +18,21 @@ public:
     ~windowshezhi();
 public slots:
     void fanhui();
+    void set_Enabled(bool b);
 private slots:
     void on_pushButton_2_clicked();
 
     void on_pushButton_clicked();
 
+    void on_bt_reset_clicked();
+
+
+
 private:
     Ui::windowshezhi *ui;
     netwindow* w;
     netmodel* net;
+    sqlmodel* sql;
 };
 
 #endif // WINDOWSHEZHI_H

@@ -13,7 +13,7 @@
 
 #include <QFile>
 #include <QDir>
-
+/*
 bool check(QString filename)
 {
     QFile file(filename);
@@ -23,13 +23,25 @@ bool check(QString filename)
     return false;
 }
 
+class project
+{
+public:
+    void pro(int num){
+        for(int i = 0; i < num; i++){
+            printf("*");
+        }
+        printf("\n");
+    }
+};
+*/
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    test w ;
+    first w ;
     w.show();
 
 
     return a.exec();
 }
+
 

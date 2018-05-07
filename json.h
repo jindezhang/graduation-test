@@ -8,7 +8,8 @@
 #include <QJsonValue>
 #include <QDebug>
 #include <allstruct.h>
-
+#include <sqlmodel.h>
+#include <netmodel.h>
 
 class json
 {
@@ -34,6 +35,9 @@ public:
     void add_tojson(QString value, QString &json);
     void json_toadd(QString &json, Em_info &tmp_em);
 
+private:
+    sqlmodel* sql;
+    netmodel* net;
 };
 
 #endif // JSON_H

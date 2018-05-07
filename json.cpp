@@ -14,7 +14,8 @@
   */
 json::json()
 {
-
+    sql = sqlmodel::get_model();
+    net = netmodel::get_net();
 }
 
 json::~json()
@@ -198,9 +199,9 @@ void json::rule_tojson(QString &json)
 void json::config_tojson(QString &json)
 {
     //因为配置文件只有一条，可以直接在这里拿到然后封装就好。
-    sqlmodel sql;
+
     config tmp_em;
-    sql.config_select_all(tmp_em);
+    sql->config_select_all(tmp_em);
 
     QJsonObject data;//记录对象
     QJsonArray arr;
@@ -245,10 +246,10 @@ void json::json_toconfig(config &tmp_em, QString &json)
 
     for(int i = 0; i<nSize; i++){
         data = arr.at(i).toObject();
-        tmp_em.rule = data.value("nmo").toString();
-        tmp_em.before = data.value("nmg").toString();
-        tmp_em.after = data.value("name").toString();
-        tmp_em.upload = data.value("amo").toString();
+        tmp_em.rule = data.value("rule").toString();
+        tmp_em.before = data.value("before").toString();
+        tmp_em.after = data.value("after").toString();
+        tmp_em.upload = data.value("upload").toString();
 
     }
 }
@@ -260,7 +261,7 @@ void json::authority_tojson(QString &json)
 
 void json::json_toauthority(QString &json)
 {
-    sqlmodel sql;
+
     QJsonParseError err;
     QJsonObject obj;
     QJsonValue value;
@@ -283,9 +284,16 @@ void json::json_toauthority(QString &json)
         data = arr.at(i).toObject();
         rfid = data.value("rfid").toString();
         if(json.contains("del")){
-            sql.authority_delete(rfid);
+            if(sql->authority_delete(rfid))
+               net->send_data("ok");
+            else
+                net->send_data("false");
+
         }else{
-            sql.authority_insert(rfid);
+            if(sql->authority_insert(rfid))
+                net->send_data("ok");
+            else
+                net->send_data("false");
         }
 
 

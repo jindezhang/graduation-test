@@ -23,7 +23,8 @@ public:
     int get_Port();
     void connect_toserver(QString IP, int port);//连接服务器成功
     void send_data(QString data);
-
+    void ok();
+    void false_no();
 signals:
     void sendStatus(QString data);
     void Status_add(QString data);

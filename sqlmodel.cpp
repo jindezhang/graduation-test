@@ -121,13 +121,13 @@ bool sqlmodel::config_insert(QString rule)
     return true;
 }
 
-bool sqlmodel::config_insert_time(QString before, QString after)
+bool sqlmodel::config_insert_time(config &con)
 {
     QSqlQuery query;
 //    QString sql_d = "delete from config;";
 //    query.exec(sql_d);
-    QString sql_s = QString("update config set before='%1' , after = '%2';").arg(before).arg(after);
-
+    QString sql_s = QString("update config set before='%1' , after = '%2', rule = '%3', upload = '%4';").arg(con.before).arg(con.after).arg(con.rule).arg(con.upload);
+    qDebug()<<"SQL"<<sql_s;
     if(!query.exec(sql_s)){
         qDebug() << "update Failed!"<<query.lastError();
         return false;
@@ -135,11 +135,13 @@ bool sqlmodel::config_insert_time(QString before, QString after)
     return true;
 }
 
+
+
 void sqlmodel::config_select_time(QString &before, QString &after)
 {
     QSqlQuery query;
     QString sql_s = QString("SELECT * FROM config;");
-
+    qDebug()<<"SQL"<<sql_s;
     if(!query.exec(sql_s)){
         qDebug() << "select Failed!"<<query.lastError();
         return;
@@ -160,6 +162,25 @@ bool sqlmodel::config_reset()
         qDebug() << "reset Failed!"<<query.lastError();
         return false;
     }
+    sql_s = QString("delete from rule where name not in('DH1');");
+    if(!query.exec(sql_s)){
+        qDebug() << "reset Failed!"<<query.lastError();
+        return false;
+    }
+
+    sql_s = QString("delete from em_info ;");
+    if(!query.exec(sql_s)){
+        qDebug() << "reset Failed!"<<query.lastError();
+        return false;
+    }
+
+    sql_s = QString("delete from em_infos ;");
+    if(!query.exec(sql_s)){
+        qDebug() << "reset Failed!"<<query.lastError();
+        return false;
+    }
+
+
     return true;
 }
 
@@ -199,15 +220,15 @@ void sqlmodel::authority_select(QString rfid)
     }
 }
 
-void sqlmodel::authority_delete(QString rfid)
+bool sqlmodel::authority_delete(QString rfid)
 {
     QSqlQuery query;
     QString sql_s = QString("delete FROM authority where rfid = '%1';").arg(rfid);
     if(!query.exec(sql_s)){
         qDebug() << "delete Failed!"<<query.lastError();
-
+        return false;
     }
-
+    return true;
 }
 
 bool sqlmodel::authority_insert(QString rfid)

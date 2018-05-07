@@ -1,74 +1,75 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2018-03-19T20:30:56
+# Project created by QtCreator 2018-05-07T18:36:47
 #
 #-------------------------------------------------
 QT       += core gui network serialport
 QT       +=sql
 
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = test_tcp
+TARGET = mygraduation
 TEMPLATE = app
 
 
 SOURCES += main.cpp\
-    netmodel.cpp \
+    beep.cpp \
     first.cpp \
-    sqlmodel.cpp \
-    serialmodel.cpp \
-    test.cpp \
-    serialmodel_c.cpp \
-    mythread.cpp \
-    top.cpp \
+    json.cpp \
     mybutton.cpp \
+    mythread.cpp \
+    netmodel.cpp \
+    serialmodel.cpp \
+    serialmodel_c.cpp \
+    sqlmodel.cpp \
+    test.cpp \
+    top.cpp \
     winbutton.cpp \
+    windowadd.cpp \
     windowdownload.cpp \
+    windowlog.cpp \
     windowmain.cpp \
     windownet.cpp \
     windowrule.cpp \
     windowselectforid.cpp \
-    json.cpp \
-    windowadd.cpp \
-    beep.cpp \
     windowshezhi.cpp \
-    windowstart.cpp \
-    windowlog.cpp
+    windowstart.cpp
 
 HEADERS  += \
-    netmodel.h \
-    first.h \
-    sqlmodel.h \
     allstruct.h \
-    serialmodel.h \
-    test.h \
-    serialmodel_c.h \
-    mythread.h \
-    top.h \
+    beep.h \
+    first.h \
+    json.h \
     mybutton.h \
+    mythread.h \
+    netmodel.h \
+    serialmodel.h \
+    serialmodel_c.h \
+    sqlmodel.h \
+    test.h \
+    top.h \
     winbutton.h \
+    windowadd.h \
     windowdownload.h \
+    windowlog.h \
     windowmain.h \
     windownet.h \
     windowrule.h \
     windowselectforid.h \
-    json.h \
-    windowadd.h \
-    beep.h \
     windowshezhi.h \
-    windowstart.h \
-    windowlog.h
+    windowstart.h
 
 FORMS    += mainwindow.ui \
-    netwindow.ui \
+    downloadwindow.ui \
     first.ui \
+    netwindow.ui \
+    rulewindow.ui \
     selectforid.ui \
     test.ui \
     top.ui \
     winbutton.ui \
-    downloadwindow.ui \
-    rulewindow.ui \
     windowadd.ui \
+    windowlog.ui \
     windowshezhi.ui \
-    windowstart.ui \
-    windowlog.ui
+    windowstart.ui

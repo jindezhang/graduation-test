@@ -1,2 +1,0 @@
-# graduation-test
-my graduation

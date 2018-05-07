@@ -8,7 +8,8 @@
 #include <netmodel.h>
 
 
-//本地添加的考勤规则，服务器需不需要？？？
+//本地添加的考勤规则，服务器需不需要？
+//添加的时候，可以不用上传，当更换为本地添加的规则时候，需要上传
 
 namespace Ui {
 class rulewindow;

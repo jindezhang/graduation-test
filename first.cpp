@@ -12,6 +12,7 @@ first::first(QWidget *parent) :
 //    键盘del
     connect(ui->wg_keys,SIGNAL(click_del()),this,SLOT(del()));
 
+
     sl = sqlmodel::get_model();
     connect(sl,SIGNAL(sendNet(Net)), this, SLOT(showdata(Net)));
     sl->net_select();
@@ -69,15 +70,18 @@ void first::on_bt_connect_clicked()
 
 void first::net_connect_ok()
 {
-    nettimer->start(5000);
+    nettimer->start(5000*100);//!!!
     ui->bt_connect->setEnabled(false);
     ui->bt_jump->setEnabled(false);
     ui->tips->setText("连接服务器成功....正在初始化，请稍候。");
 
-    //初始化数据的开始。
-    MainWindow *main = new MainWindow();
-    main->show();
-    this->close();
+    config c;
+    sl->config_select_all(c);
+    QString com = QString("%1#init").arg(c.device);
+    net->send_data(com);
+
+
+
 }
 
 void first::net_timeout()
@@ -105,14 +109,60 @@ void first::on_bt_jump_clicked()
 
 void first::init(QString json)
 {
+    //已经完成初始化。
     if(flag != 0 )
         return;
+    qDebug()<<"init json:"<<json;
+    //1 初始化权限表
+    if(json.contains("authority")){
+        jsonc.json_toauthority(json);//该方法完成存储和del。
+        return;
+    }
+//   2 初始化配置信息
+    if(json.contains("config")){
+        config c;
+        jsonc.json_toconfig(c, json);
+        if(sl->config_insert_time(c)){
+            net->ok();
+        }else
+            net->false_no();
+        return;
+    }
+//   3 初始化考勤规则
+    if(json.contains("rule")){
+        QList<Rule> list;
+        jsonc.json_torule(list,json);
 
+        QList <Rule>::iterator iter;
+        Rule tmp_em;
+        for(iter = list.begin(); iter != list.end(); iter++){
+            tmp_em = *iter;
+            if(!sl->rule_insert(tmp_em))
+                net->false_no();
+        }
+        net->ok();
+        return;
+
+    }
+
+    // 4 update time
+    if(json.contains("##")){
+
+        QStringList list = json.split("##");
+        QString dd = list[0];
+        QString tt = list[1];
+
+        QString d = "date -s 2018-12-12";
+        QString t = "date -s 14:14";
+        system(d.toLatin1().data());
+        system(t.toLatin1().data());
+    }
+
+    //初始化数据的完成
+    flag = 1;
     nettimer->stop();
-    ui->bt_connect->setEnabled(true);
-    ui->bt_jump->setEnabled(true);
-    ui->tips->setText(" ");
-
-
+    MainWindow *main = new MainWindow();
+    main->show();
+    this->close();
     qDebug()<<"init:"<<json;
 }

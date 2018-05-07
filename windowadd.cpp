@@ -15,6 +15,8 @@ windowadd::windowadd(QWidget *parent) :
     net = netmodel::get_net();
     rfid = QString("0");
     connect(net, SIGNAL(Status_add(QString)),this,SLOT(addstatus(QString)));
+
+
 }
 
 windowadd::~windowadd()
@@ -41,7 +43,7 @@ void windowadd::addstatus(QString status)
         on_pushButton_2_clicked();
     }else{
         //如果不是状态信息，那么就是员工数据。
-        QList<QString> list;
+        Em_info list;
         jsonc.json_toadd(status, list);
 
     }

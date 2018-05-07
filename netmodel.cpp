@@ -96,6 +96,16 @@ void netmodel::send_data(QString data)
     mSocket->write(cstr);
 }
 
+void netmodel::ok()
+{
+    send_data("ok");
+}
+
+void netmodel::false_no()
+{
+    send_data("false");
+}
+
 void netmodel::connect_again()
 {
     mSocket->connectToHost(Ip, port);

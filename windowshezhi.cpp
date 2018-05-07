@@ -13,7 +13,7 @@ windowshezhi::windowshezhi(QWidget *parent) :
 
     w = NULL;
     net = netmodel::get_net();
-
+    sql = sqlmodel::get_model();
 }
 
 windowshezhi::~windowshezhi()
@@ -29,6 +29,15 @@ void windowshezhi::fanhui()
     this->close();
 }
 
+void windowshezhi::set_Enabled(bool b)
+{
+    ui->pushButton->setEnabled(b);
+    ui->pushButton_2->setEnabled(b);
+    ui->pushButton_3->setEnabled(b);
+
+
+}
+
 void windowshezhi::on_pushButton_2_clicked()
 {
     if(NULL == w)
@@ -40,4 +49,19 @@ void windowshezhi::on_pushButton_2_clicked()
 void windowshezhi::on_pushButton_clicked()
 {
     net->send_data("update time");
+}
+
+void windowshezhi::on_bt_reset_clicked()
+{
+    if (QMessageBox::Yes == QMessageBox::question(this,
+                                                  tr("Question"),
+                                                  tr("确认重置系统吗?"),
+                                                  QMessageBox::Yes | QMessageBox::No,
+                                                  QMessageBox::Yes)) {
+
+        set_Enabled(false);
+        if(sql->config_reset()){
+
+        }
+    }
 }
